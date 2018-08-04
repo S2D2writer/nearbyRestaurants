@@ -12,5 +12,6 @@
     <orderEntry type="library" name="react-dom.development" level="application" />
     <orderEntry type="library" name="babel" level="application" />
     <orderEntry type="library" name="socket.io" level="application" />
+    <orderEntry type="library" name="socket.io" level="application" />
   </component>
 </module>

@@ -20,7 +20,10 @@ function getNearbyRestaurantRawData() {
 
 function parseOutVenueIds(rawVenuesJson) {
     let venuesArray = rawVenuesJson.response.venues;
-    return venuesArray.map(venue => venue.id);
+    return venuesArray.map(venue => ({
+        id: venue.id,
+        name: venue.name,
+    }));
 }
 
 

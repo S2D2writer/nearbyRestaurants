@@ -46,7 +46,7 @@ class CollapsibleList extends React.Component {
                 <ListItem button onClick={() => {
                     this.props.collapseEventHandler(this.props.restaurantId)
                 }}>
-                    <ListItemText primary="Collapse me!"/>
+                    <ListItemText primary={this.props.restaurantName}/>
                     {this.props.collapsed ? <ExpandMore/> : <ExpandLess/>}
                 </ListItem>
                 <Collapse in={!this.props.collapsed} timeout="auto" unmountOnExit>
@@ -76,6 +76,7 @@ class NestedList extends React.Component {
                         [restaurantId]: {
                             collapsed: prevState[restaurantId].collapsed,
                             data: menuJson.response.menu.menus.items[0].entries.items,
+                            name: prevState[restaurantId].name,
                         }
                     };
                 });
@@ -87,16 +88,17 @@ class NestedList extends React.Component {
     // fire off ajax calls for menus
     componentDidMount() {
         getNearbyRestaurantRawData().then(function (rawData) {
-            let restaurantIds = parseOutVenueIds(rawData);
+            let restaurants = parseOutVenueIds(rawData);
             let state = {};
-            for (let i = 0; i < restaurantIds.length; i++) {
-                state[restaurantIds[i]] = {
-                    collapsed: true
+            for (let i = 0; i < restaurants.length; i++) {
+                state[restaurants[i].id] = {
+                    collapsed: true,
+                    name: restaurants[i].name,
                 };
             }
             this.setState(state, () => {
                 socket.emit('get-menus', {
-                    ids: restaurantIds,
+                    ids: restaurants.map(restaurant => restaurant.id), // send an array of the ids
                 });
             });
         }.bind(this));
@@ -120,8 +122,9 @@ class NestedList extends React.Component {
                 arrayOfMenus.push(<CollapsibleList collapsed={this.state[restaurantId].collapsed}
                                                    collapseEventHandler={this.toggleVisiblity}
                                                    restaurantId={restaurantId} key={restaurantId}
-                                                   data={this.state[restaurantId].data}/>);
-                arrayOfMenus.push(<Divider></Divider>)
+                                                   data={this.state[restaurantId].data}
+                                                   restaurantName={this.state[restaurantId].name}/>);
+                arrayOfMenus.push(<Divider/>)
             }
         }
         return (
