@@ -1,6 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import SwipeableViews from 'react-swipeable-views';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -9,10 +14,12 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
+
 import {withStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import {parseOutVenueIds, getNearbyRestaurantRawData} from './menuRequester';
+
 
 let socket = io('http://localhost:8080/');
 // function styles(theme) {
@@ -145,5 +152,43 @@ class NestedList extends React.Component {
 //     }
 // }
 
+
+class AppHeader extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: 0,
+        };
+        this.changeTab = this.changeTab.bind(this);
+    }
+
+    changeTab(newTabValue) {
+        this.setState({
+            value: newTabValue,
+        })
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <AppBar position="static">
+                    <Tabs fullWidth={true} centered value={this.state.value} onChange={(event, value) => {
+                        this.changeTab(value);
+                    }}>
+                        <Tab label="Menus"/>
+                        <Tab label="Item Two"/>S
+                        <Tab label="About"/>
+                    </Tabs>
+                </AppBar>
+                <SwipeableViews index={this.state.value}>
+                    <NestedList/>
+                    <p>Page 2 bitches.</p>
+                    <p>Page 3. Does it EVER end?</p>
+                </SwipeableViews>
+            </React.Fragment>
+        );
+    }
+}
+
 //let StyledNestedList = withStyles(styles)(NestedList);
-ReactDOM.render(<NestedList/>, document.getElementById("box"));
+ReactDOM.render(<AppHeader/>, document.getElementById("box"));

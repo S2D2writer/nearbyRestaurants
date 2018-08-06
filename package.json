@@ -16,6 +16,7 @@
     "@material-ui/icons": "^2.0.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-swipeable-views": "^0.12.16",
     "request": "^2.87.0",
     "socket.io": "^2.1.1"
   }

@@ -17,3 +17,9 @@ nearbyRestaurants is a learning-project SPA I wrote using React.js (with materia
   - React uses a NestedList component which consists of CollapsibleList components       representing each menu. The NestedList component displays a loading bar until the first menu comes in.
 
 
+### TODO
+
+  - Ability to refresh nearby menus
+  - Ability to type in your location instead of HTML5 geolocation
+  - Add pricing and descriptions to menu items.
+  - Improve restaurant searching parameters when querying Foursquare
